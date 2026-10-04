@@ -1,9 +1,5 @@
 plugins {
-    alias(libs.plugins.wayfolk.android.library)
-}
-
-dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
+    alias(libs.plugins.wayfolk.kotlin.multiplatform)
+    alias(libs.plugins.wayfolk.compose.multiplatform)
+    alias(libs.plugins.wayfolk.navigation3)
 }

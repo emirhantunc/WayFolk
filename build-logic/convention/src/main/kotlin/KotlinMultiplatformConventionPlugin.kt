@@ -40,6 +40,12 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
             sourceSets.commonTest.dependencies {
                 implementation(libs.library("kotlin-test"))
             }
+            sourceSets.matching { it.name == "androidDeviceTest" }.configureEach {
+                dependencies {
+                    implementation(libs.library("androidx-testExt-junit"))
+                    implementation(libs.library("androidx-espresso-core"))
+                }
+            }
         }
     }
 }
