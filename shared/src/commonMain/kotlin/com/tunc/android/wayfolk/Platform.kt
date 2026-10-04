@@ -1,0 +1,7 @@
+package com.tunc.android.wayfolk
+
+interface Platform {
+    val name: String
+}
+
+expect fun getPlatform(): Platform
