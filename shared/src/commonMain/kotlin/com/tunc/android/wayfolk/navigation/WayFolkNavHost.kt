@@ -8,7 +8,11 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
 import com.tunc.wayfolk.navigation.TopLevelBackStack
+import com.tunc.wayfolk.navigation.model.NavEntryProvider
 import org.koin.compose.getKoin
 import kotlin.collections.distinct
 
@@ -21,15 +25,18 @@ fun WayFolkNavHost(topLevelBackStack: TopLevelBackStack) {
 
 
     val entryProvider = remember(providers) {
-        entryProvider<NavKey> {
+        entryProvider {
             providers.forEach { provider ->
                 with(provider) { register() }
             }
         }
     }
 
-    BackHandler { topLevelBackStack.onSystemBack() }
-
+    NavigationBackHandler(
+        state = rememberNavigationEventState(currentInfo = NavigationEventInfo.None),
+        isBackEnabled = topLevelBackStack.backStack.size <= 1,
+        onBackCompleted = { topLevelBackStack.onSystemBack() }
+    )
 
     SharedTransitionLayout {
         NavDisplay(
@@ -42,6 +49,5 @@ fun WayFolkNavHost(topLevelBackStack: TopLevelBackStack) {
             entryProvider = entryProvider
         )
     }
-
 
 }
