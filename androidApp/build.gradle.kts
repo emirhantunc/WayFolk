@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.wayfolk.android.application)
     alias(libs.plugins.wayfolk.android.compose)
+    alias(libs.plugins.wayfolk.koin)
 }
 
 dependencies {

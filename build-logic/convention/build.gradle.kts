@@ -39,5 +39,9 @@ gradlePlugin {
             id = libs.plugins.wayfolk.navigation3.get().pluginId
             implementationClass = "Navigation3ConventionPlugin"
         }
+        register("serialization") {
+            id = libs.plugins.wayfolk.serialization.get().pluginId
+            implementationClass = "SerializationConventionPlugin"
+        }
     }
 }
