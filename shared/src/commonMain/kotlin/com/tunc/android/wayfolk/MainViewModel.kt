@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.collections.copy
 import kotlin.time.Duration.Companion.milliseconds
 
 private const val SPLASH_DURATION = 2000L
@@ -38,6 +39,11 @@ class MainViewModel(
             is MainActivityContract.Action.OnSelectTab -> {
                 _state.update { state ->
                     state.copy(selectedTabRoute = action.item.router)
+                }
+            }
+            is MainActivityContract.Action.OnGraphStateChange -> {
+                _state.update { state ->
+                    state.copy(graphState = action.graphState)
                 }
             }
         }
