@@ -35,5 +35,13 @@ gradlePlugin {
             id = libs.plugins.wayfolk.koin.get().pluginId
             implementationClass = "KoinConventionPlugin"
         }
+        register("navigation3") {
+            id = libs.plugins.wayfolk.navigation3.get().pluginId
+            implementationClass = "Navigation3ConventionPlugin"
+        }
+        register("serialization") {
+            id = libs.plugins.wayfolk.serialization.get().pluginId
+            implementationClass = "SerializationConventionPlugin"
+        }
     }
 }

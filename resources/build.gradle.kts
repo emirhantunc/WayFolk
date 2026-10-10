@@ -1,9 +1,9 @@
 plugins {
-    alias(libs.plugins.wayfolk.android.library)
+    alias(libs.plugins.wayfolk.kotlin.multiplatform)
+    alias(libs.plugins.wayfolk.compose.multiplatform)
 }
 
-dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.tunc.wayfolk.resources"
 }

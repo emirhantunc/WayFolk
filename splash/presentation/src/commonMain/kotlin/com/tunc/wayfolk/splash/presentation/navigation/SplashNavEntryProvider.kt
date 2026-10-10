@@ -1,0 +1,25 @@
+package com.tunc.wayfolk.splash.presentation.navigation
+
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import com.tunc.wayfolk.feature.navigation.DEFAULT_ANIMATION_DURATION
+import com.tunc.wayfolk.feature.navigation.appEntry
+import com.tunc.wayfolk.navigation.model.NavEntryProvider
+import com.tunc.wayfolk.splash.presentation.screen.SplashScreen
+
+internal class SplashNavEntryProvider : NavEntryProvider {
+    override fun EntryProviderScope<NavKey>.register() {
+        appEntry<SplashRouter.Splash>(
+            enter = fadeIn(animationSpec = tween(DEFAULT_ANIMATION_DURATION)),
+            exit = fadeOut(animationSpec = tween(DEFAULT_ANIMATION_DURATION)),
+            inheritPopTransitions = true
+        ) {
+
+            SplashScreen()
+
+        }
+    }
+}

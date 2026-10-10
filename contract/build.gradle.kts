@@ -1,9 +1,10 @@
 plugins {
-    alias(libs.plugins.wayfolk.android.library)
+    alias(libs.plugins.wayfolk.kotlin.multiplatform)
+    alias(libs.plugins.wayfolk.serialization)
 }
 
-dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
+kotlin {
+    sourceSets.commonMain.dependencies {
+        implementation(libs.koin.annotations)
+    }
 }
