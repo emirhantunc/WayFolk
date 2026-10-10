@@ -17,18 +17,9 @@ class BottomNavigationStateManager : CoroutineScope {
     private val stateChannel = Channel<BottomNavigationState>()
     val stateFlow = stateChannel.receiveAsFlow()
 
-    private val effectChannel = Channel<GraphState>()
-    val effectFlow = effectChannel.receiveAsFlow()
-
     fun updateState(state: BottomNavigationState) {
         launch {
             stateChannel.send(state)
-        }
-    }
-
-    fun updateEffect(state: GraphState) {
-        launch {
-            effectChannel.send(state)
         }
     }
 }
