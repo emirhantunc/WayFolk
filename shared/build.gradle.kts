@@ -25,6 +25,8 @@ kotlin {
             implementation(projects.feature.home)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(projects.splash)
+
         }
     }
 }

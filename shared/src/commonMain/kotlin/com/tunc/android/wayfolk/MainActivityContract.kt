@@ -1,5 +1,6 @@
 package com.tunc.android.wayfolk
 
+import com.tunc.wayfolk.common.GraphState
 import com.tunc.wayfolk.navigation.model.BottomNavigationItem
 import com.tunc.wayfolk.navigation.model.router.ComposeRouter
 import com.tunc.wayfolk.navigation.model.router.ComposeTabScreenRouter
