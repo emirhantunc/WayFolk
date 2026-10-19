@@ -10,5 +10,8 @@ kotlin {
         api(projects.navigation)
         api(projects.common)
         implementation(projects.core.presentation)
+        implementation(projects.core.extension)
+        implementation(projects.designsystemkit)
+        implementation(projects.uicomponent)
     }
 }

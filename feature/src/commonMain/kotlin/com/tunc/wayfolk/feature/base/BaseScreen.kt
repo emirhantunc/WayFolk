@@ -1,4 +1,4 @@
-package com.tunc.wayfolk.feature.home.base
+package com.tunc.wayfolk.feature.base
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.ColumnScope

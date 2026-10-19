@@ -14,6 +14,7 @@ kotlin {
             implementation(projects.feature)
             implementation(projects.core.extension)
             implementation(projects.resources)
+            implementation(projects.core.presentation)
         }
     }
 }
