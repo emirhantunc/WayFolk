@@ -10,6 +10,9 @@ kotlin {
             api(projects.feature.home.presentation)
             implementation(projects.feature.home.data)
             implementation(projects.feature.home.domain)
+            implementation(projects.core.presentation)
+            implementation(projects.designsystemkit)
+            implementation(projects.core.extension)
         }
     }
 }

@@ -7,6 +7,7 @@ plugins {
 dependencies {
     implementation(projects.shared)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.logcat)
 }
 
 android {

@@ -7,8 +7,16 @@ plugins {
 
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
     sourceSets.commonMain.dependencies {
         implementation(projects.navigation)
+        implementation(projects.logger)
         api(projects.contract)
+    }
+    sourceSets.androidMain.dependencies {
+        implementation(libs.androidx.activity.compose)
+        implementation(libs.androidx.core.ktx)
     }
 }

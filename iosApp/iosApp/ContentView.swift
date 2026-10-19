@@ -11,8 +11,16 @@ struct ComposeView: UIViewControllerRepresentable {
 }
 
 struct ContentView: View {
+    @State private var statusBarHidden = false
+
     var body: some View {
         ComposeView()
             .ignoresSafeArea()
+            .statusBarHidden(statusBarHidden)
+            .onAppear {
+                MainViewControllerKt.setStatusBarVisibilityListener { visible in
+                    statusBarHidden = !visible.boolValue
+                }
+            }
     }
 }
