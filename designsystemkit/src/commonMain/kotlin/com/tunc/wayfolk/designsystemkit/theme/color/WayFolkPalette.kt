@@ -6,6 +6,7 @@ internal object WayFolkPalette {
     val White = Color(0xFFFFFFFF)
     val Black = Color(0xFF000000)
 
+    val Neutral40 = Color(0xFFFCFCFC)
     val Neutral50 = Color(0xFFFAFAFA)
     val Neutral100 = Color(0xFFF5F5F5)
     val Neutral150 = Color(0xFFECECEC)

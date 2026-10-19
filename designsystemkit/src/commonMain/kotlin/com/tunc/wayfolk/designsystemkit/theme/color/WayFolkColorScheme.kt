@@ -62,6 +62,7 @@ data class WayFolkColorScheme(
     val mapBlock: WayFolkColor,
     val mapRoad: WayFolkColor,
     val neutral0: WayFolkColor,
+    val neutral40: WayFolkColor,
     val neutral50: WayFolkColor,
     val neutral100: WayFolkColor,
     val neutral200: WayFolkColor,
@@ -75,6 +76,7 @@ data class WayFolkColorScheme(
 )
 
 private val Neutral0Token = WayFolkColor(WayFolkPalette.White, "n_0")
+private val Neutral40Token = WayFolkColor(WayFolkPalette.Neutral40, "n_40")
 private val Neutral50Token = WayFolkColor(WayFolkPalette.Neutral50, "n_50")
 private val Neutral100Token = WayFolkColor(WayFolkPalette.Neutral100, "n_100")
 private val Neutral200Token = WayFolkColor(WayFolkPalette.Neutral200, "n_200")
@@ -141,6 +143,7 @@ fun appLightColors(): WayFolkColorScheme = WayFolkColorScheme(
     mapBlock = WayFolkColor(WayFolkPalette.Stone300),
     mapRoad = WayFolkColor(WayFolkPalette.Stone400),
     neutral0 = Neutral0Token,
+    neutral40 = Neutral40Token,
     neutral50 = Neutral50Token,
     neutral100 = Neutral100Token,
     neutral200 = Neutral200Token,
@@ -208,6 +211,7 @@ fun appDarkColors(): WayFolkColorScheme = WayFolkColorScheme(
     mapBlock = WayFolkColor(WayFolkPalette.Neutral800),
     mapRoad = WayFolkColor(WayFolkPalette.Neutral700),
     neutral0 = Neutral0Token,
+    neutral40 = Neutral40Token,
     neutral50 = Neutral50Token,
     neutral100 = Neutral100Token,
     neutral200 = Neutral200Token,

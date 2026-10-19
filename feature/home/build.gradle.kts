@@ -14,6 +14,7 @@ kotlin {
             implementation(projects.designsystemkit)
             implementation(projects.core.extension)
             implementation(projects.feature)
+            implementation(projects.uicomponent)
         }
     }
 }
