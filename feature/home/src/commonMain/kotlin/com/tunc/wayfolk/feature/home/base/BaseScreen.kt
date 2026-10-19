@@ -24,6 +24,7 @@ import com.tunc.wayfolk.core.presentation.util.hideStatusBar
 import com.tunc.wayfolk.core.presentation.util.showStatusBar
 import com.tunc.wayfolk.designsystemkit.theme.AppThemeProvider
 import com.tunc.wayfolk.designsystemkit.theme.color.WayFolkColor
+import com.tunc.wayfolk.feature.navigation.appBottomNavigationStateManager
 import org.koin.compose.koinInject
 
 

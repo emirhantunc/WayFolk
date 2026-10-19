@@ -13,6 +13,7 @@ kotlin {
             implementation(projects.core.presentation)
             implementation(projects.designsystemkit)
             implementation(projects.core.extension)
+            implementation(projects.feature)
         }
     }
 }
