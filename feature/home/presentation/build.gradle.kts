@@ -15,6 +15,9 @@ kotlin {
             implementation(projects.core.extension)
             implementation(projects.resources)
             implementation(projects.core.presentation)
+            implementation(projects.uicomponent)
+            implementation(projects.designsystemkit)
+            implementation(projects.multilanguage)
         }
     }
 }

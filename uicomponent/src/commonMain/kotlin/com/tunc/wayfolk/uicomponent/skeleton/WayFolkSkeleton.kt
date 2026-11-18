@@ -24,7 +24,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
-import com.tunc.android.jvm.orZero
+import com.tunc.wayfolk.core.extension.orZero
 import com.tunc.wayfolk.designsystemkit.extension.conditionModifier
 import com.tunc.wayfolk.designsystemkit.theme.AppThemeProvider
 import com.tunc.wayfolk.uicomponent.loading.util.rememberDeviceType

@@ -6,5 +6,6 @@ plugins {
 kotlin {
     sourceSets.commonMain.dependencies {
         implementation(projects.resources)
+        api(projects.multilanguage)
     }
 }

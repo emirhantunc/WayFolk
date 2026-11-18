@@ -1,4 +1,4 @@
-package com.tunc.android.jvm
+package com.tunc.wayfolk.core.extension
 
 const val MASK = 0xFFFFFF
 

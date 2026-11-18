@@ -1,0 +1,17 @@
+<resources>
+    <string name="language_system">Sistem varsayılanı</string>
+    <string name="language_english">English</string>
+    <string name="language_turkish">Türkçe</string>
+
+    <string name="home_tab_title">Ana Sayfa</string>
+    <string name="home_title">Keşfet</string>
+    <string name="home_greeting">Merhaba, %1$s</string>
+    <string name="home_stories_title">Hikayeler</string>
+    <string name="home_story_image_description">Hikaye görseli</string>
+    <string name="home_empty_title">Henüz burada bir şey yok</string>
+    <string name="home_empty_description">Akışını doldurmak için kişileri ve odaları takip et.</string>
+    <plurals name="home_new_posts">
+        <item quantity="one">%1$d yeni gönderi</item>
+        <item quantity="other">%1$d yeni gönderi</item>
+    </plurals>
+</resources>

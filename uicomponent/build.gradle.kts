@@ -14,6 +14,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.designsystemkit)
             implementation(projects.core.extension)
+            implementation(libs.coil.compose)
         }
     }
 }

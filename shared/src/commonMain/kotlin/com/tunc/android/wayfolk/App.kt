@@ -13,6 +13,7 @@ import com.tunc.android.wayfolk.navigation.WayFolkNavHost
 import com.tunc.wayfolk.common.BottomNavigationStateManager
 import com.tunc.wayfolk.common.GraphState
 import com.tunc.wayfolk.feature.navigation.LocalWayFolkBottomNavigationStateManager
+import com.tunc.wayfolk.multilanguage.language.WayFolkLocalizationProvider
 import com.tunc.wayfolk.navigation.AppComposeNavigator
 import com.tunc.wayfolk.navigation.NavigationTabEventManager
 import com.tunc.wayfolk.navigation.StartDestinationProvider
@@ -34,49 +35,51 @@ fun App(
     navigationManager: ComposeNavManager = koinInject(),
     bottomNavigationStateManager: BottomNavigationStateManager = koinInject()
 ) {
-    MaterialTheme {
-        CompositionLocalProvider(
-            LocalWayFolkBottomNavigationStateManager provides bottomNavigationStateManager
-        ) {
-            val screenState by viewModel.state.collectAsStateWithLifecycle()
-            val topLevelBackStack = remember {
-                TopLevelBackStack(
-                    startKey = screenState.startDestination,
-                    homeTab = startDestinationProvider.homeDestination as ComposeTabScreenRouter,
-                    onReselectTabAtRoot = { router ->
-                        navigationTabEventManager.sendEvent(TabEvent.OnClickAtRoot(router))
-                    },
-                    onExit = { //
-                    }
-                )
-            }
-            LaunchedEffect(Unit) {
-                launch {
-                    appComposeNavigator.handleNavigationCommands(
-                        backStack = topLevelBackStack,
-                        navigationCommands = navigationManager.navigationFlow,
+    WayFolkLocalizationProvider {
+        MaterialTheme {
+            CompositionLocalProvider(
+                LocalWayFolkBottomNavigationStateManager provides bottomNavigationStateManager
+            ) {
+                val screenState by viewModel.state.collectAsStateWithLifecycle()
+                val topLevelBackStack = remember {
+                    TopLevelBackStack(
+                        startKey = screenState.startDestination,
+                        homeTab = startDestinationProvider.homeDestination as ComposeTabScreenRouter,
+                        onReselectTabAtRoot = { router ->
+                            navigationTabEventManager.sendEvent(TabEvent.OnClickAtRoot(router))
+                        },
+                        onExit = { //
+                        }
                     )
                 }
-                launch {
-                    bottomNavigationStateManager.effectFlow.collectLatest { graphState ->
-                        when (graphState) {
-                            GraphState.StartSplash -> {
-                                topLevelBackStack.setRoot(startDestinationProvider.splashDestination)
-                            }
-
-                            GraphState.StartHomeScreen -> {
-                                topLevelBackStack.setRoot(startDestinationProvider.homeDestination)
-                            }
-                        }
-
-                        viewModel.onAction(
-                            MainActivityContract.Action.OnGraphStateChange(graphState)
+                LaunchedEffect(Unit) {
+                    launch {
+                        appComposeNavigator.handleNavigationCommands(
+                            backStack = topLevelBackStack,
+                            navigationCommands = navigationManager.navigationFlow,
                         )
                     }
-                }
+                    launch {
+                        bottomNavigationStateManager.effectFlow.collectLatest { graphState ->
+                            when (graphState) {
+                                GraphState.StartSplash -> {
+                                    topLevelBackStack.setRoot(startDestinationProvider.splashDestination)
+                                }
 
+                                GraphState.StartHomeScreen -> {
+                                    topLevelBackStack.setRoot(startDestinationProvider.homeDestination)
+                                }
+                            }
+
+                            viewModel.onAction(
+                                MainActivityContract.Action.OnGraphStateChange(graphState)
+                            )
+                        }
+                    }
+
+                }
+                WayFolkNavHost(topLevelBackStack = topLevelBackStack)
             }
-            WayFolkNavHost(topLevelBackStack = topLevelBackStack)
         }
     }
 }
