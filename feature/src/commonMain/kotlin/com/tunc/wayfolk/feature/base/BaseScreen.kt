@@ -1,11 +1,19 @@
 package com.tunc.wayfolk.feature.base
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.navigationBars
@@ -16,17 +24,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunc.android.jvm.Empty
 import com.tunc.wayfolk.common.BottomNavigationState
+import com.tunc.wayfolk.common.connectivity.ConnectivityObserver
 import com.tunc.wayfolk.contract.network.INetworkError
 import com.tunc.wayfolk.contract.network.LoadingType
 import com.tunc.wayfolk.contract.network.NetworkErrorType
@@ -39,9 +52,13 @@ import com.tunc.wayfolk.core.presentation.util.currentPlatformActivity
 import com.tunc.wayfolk.core.presentation.util.hideStatusBar
 import com.tunc.wayfolk.core.presentation.util.showStatusBar
 import com.tunc.wayfolk.core.presentation.util.statusBarsIgnoringVisibilityCompat
+import com.tunc.wayfolk.designsystemkit.component.WayFolkText
 import com.tunc.wayfolk.designsystemkit.theme.AppThemeProvider
 import com.tunc.wayfolk.designsystemkit.theme.color.WayFolkColor
+import com.tunc.wayfolk.designsystemkit.theme.typography.AppTypographyTokens
 import com.tunc.wayfolk.feature.navigation.appBottomNavigationStateManager
+import com.tunc.wayfolk.multilanguage.Strings
+import com.tunc.wayfolk.multilanguage.common_no_internet
 import com.tunc.wayfolk.uicomponent.loading.AppScreenLoading
 import com.tunc.wayfolk.uicomponent.loading.AppScreenSkeleton
 import kotlinx.coroutines.delay
@@ -73,7 +90,8 @@ fun BaseScreen(
     enableUserInteractions: Boolean = true,
     toolbar: @Composable (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
-    screenName: String = String.Empty
+    screenName: String = String.Empty,
+    connectivityObserver: ConnectivityObserver = koinInject(),
 ) {
 
     val owner = LocalLifecycleOwner.current
@@ -87,6 +105,13 @@ fun BaseScreen(
     var showContentLoading by remember { mutableStateOf(false) }
     var showShimmerLoading by remember { mutableStateOf(false) }
     val keyboardManager = LocalSoftwareKeyboardController.current
+    val isConnected by connectivityObserver.isConnected.collectAsStateWithLifecycle()
+    var noInternetError by remember { mutableStateOf(false) }
+    val showNoInternet = !isConnected || noInternetError
+
+    LaunchedEffect(isConnected) {
+        if (isConnected) noInternetError = false
+    }
 
 
     LifecycleStartEffect(Unit) {
@@ -112,6 +137,9 @@ fun BaseScreen(
                     is NetworkState.Error ->
                         handleServiceError(
                             error = networkState.error,
+                            onNoInternet = {
+                                noInternetError = true
+                            },
                             handleGeneralError = {
                                 networkError = networkState.error
                             }
@@ -199,39 +227,73 @@ fun BaseScreen(
             contentPadding = contentLoadingPaddings
         )
     }
-    CoreScreen(
-        screenName = screenName,
-        modifier = modifier
-            .pointerInput(enableUserInteractionsOnScreen) {
-                if (!enableUserInteractionsOnScreen) {
-                    awaitPointerEventScope {
-                        while (true) {
-                            awaitPointerEvent(pass = PointerEventPass.Initial)
-                                .changes.forEach { it.consume() }
+    Box(modifier = Modifier.fillMaxSize()) {
+        CoreScreen(
+            screenName = screenName,
+            modifier = modifier
+                .pointerInput(enableUserInteractionsOnScreen) {
+                    if (!enableUserInteractionsOnScreen) {
+                        awaitPointerEventScope {
+                            while (true) {
+                                awaitPointerEvent(pass = PointerEventPass.Initial)
+                                    .changes.forEach { it.consume() }
+                            }
                         }
                     }
                 }
-            }
-            .background(containerColor.color)
-            .padding(screenPaddingValues),
-    ) {
-        shimmerResourceId?.let {
-            AppScreenSkeleton (
-                showSkeleton = showShimmerLoading,
-                contentScale = shimmerContentScale,
-                shimmerStatusDuration = shimmerStatusDuration,
-                skeletonResourceId = it,
-                skeletonOverlayContent = shimmerOverlayContent
-            ) {
-                content()
-            }
-        } ?: content()
+                .background(containerColor.color)
+                .padding(screenPaddingValues),
+        ) {
+            shimmerResourceId?.let {
+                AppScreenSkeleton (
+                    showSkeleton = showShimmerLoading,
+                    contentScale = shimmerContentScale,
+                    shimmerStatusDuration = shimmerStatusDuration,
+                    skeletonResourceId = it,
+                    skeletonOverlayContent = shimmerOverlayContent
+                ) {
+                    content()
+                }
+            } ?: content()
+        }
+
+        NoInternetConnectionBar(
+            visible = showNoInternet,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = screenPaddingValues.calculateBottomPadding()),
+        )
     }
 
 }
 
 
-private fun handleServiceError(error: INetworkError?, handleGeneralError: () -> Unit) {
+@Composable
+private fun NoInternetConnectionBar(visible: Boolean, modifier: Modifier = Modifier) {
+    AnimatedVisibility(
+        visible = visible,
+        modifier = modifier,
+        enter = slideInVertically { it } + fadeIn(),
+        exit = slideOutVertically { it } + fadeOut(),
+    ) {
+        WayFolkText(
+            text = Strings.string.common_no_internet,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Black)
+                .padding(12.dp),
+            style = AppTypographyTokens.Body.medium.textStyle,
+            color = Color.White,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+private fun handleServiceError(
+    error: INetworkError?,
+    onNoInternet: () -> Unit,
+    handleGeneralError: () -> Unit,
+) {
     when (error?.code) {
         NetworkErrorType.UNAUTHORIZED.value -> {
             /**
@@ -244,6 +306,7 @@ private fun handleServiceError(error: INetworkError?, handleGeneralError: () -> 
         }
 
         NetworkErrorType.NO_INTERNET_CONNECTION.value -> {
+            onNoInternet()
         }
 
         NetworkErrorType.SECURITY_ERROR.value -> {

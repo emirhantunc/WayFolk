@@ -1,4 +1,6 @@
 <resources>
+    <string name="common_no_internet">İnternet bağlantısı yok</string>
+
     <string name="language_system">Sistem varsayılanı</string>
     <string name="language_english">English</string>
     <string name="language_turkish">Türkçe</string>

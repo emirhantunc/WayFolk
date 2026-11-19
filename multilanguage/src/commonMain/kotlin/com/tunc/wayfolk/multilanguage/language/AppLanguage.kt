@@ -13,5 +13,7 @@ enum class AppLanguage(val tag: String?, val displayName: StringResource) {
 
     companion object {
         fun fromTag(tag: String?): AppLanguage = entries.firstOrNull { it.tag == tag } ?: SYSTEM
+        fun fromDisplayName(displayName: StringResource): AppLanguage =
+            entries.firstOrNull { it.displayName == displayName } ?: SYSTEM
     }
 }

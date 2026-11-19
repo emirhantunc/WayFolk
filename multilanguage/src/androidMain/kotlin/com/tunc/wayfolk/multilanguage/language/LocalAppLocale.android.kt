@@ -6,7 +6,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import java.util.Locale
 
-internal actual object LocalAppLocale {
+actual object LocalAppLocale {
 
     private var systemLocale: Locale? = null
 

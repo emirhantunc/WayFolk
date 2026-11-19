@@ -7,7 +7,7 @@ import platform.Foundation.NSLocale
 import platform.Foundation.NSUserDefaults
 import platform.Foundation.preferredLanguages
 
-internal actual object LocalAppLocale {
+actual object LocalAppLocale {
 
     private const val APPLE_LANGUAGES_KEY = "AppleLanguages"
     private val systemLocale = NSLocale.preferredLanguages.first() as String
