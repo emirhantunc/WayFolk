@@ -1,7 +1,4 @@
-package com.tunc.wayfolk.core.presentation
-
-import com.tunc.wayfolk.contract.network.INetworkError
-import com.tunc.wayfolk.contract.network.IResponseStatus
+package com.tunc.wayfolk.contract.network
 
 sealed class RestResult<out T> {
     data object Empty : RestResult<Nothing>()
