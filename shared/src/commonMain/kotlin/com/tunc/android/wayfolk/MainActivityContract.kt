@@ -17,6 +17,9 @@ object MainActivityContract {
 
 
     sealed interface Action {
+        data class OnGraphStateChange(val graphState: GraphState) :
+            Action
+
         data class OnSelectTab(val item: BottomNavigationItem, val sendEvent: Boolean) : Action
     }
 }

@@ -10,6 +10,7 @@ import org.koin.dsl.module
 
 val commonModule
     get() = module {
+        includes(connectivityModule)
         single<CoroutineDispatcher>(named<com.tunc.wayfolk.contract.qualifiers.Dispatchers.IO>()) { Dispatchers.IO }
         singleOf(::BottomNavigationStateManager)
     }

@@ -11,6 +11,7 @@ import com.tunc.wayfolk.contract.network.INetworkError
 import com.tunc.wayfolk.contract.network.IResponseStatus
 import com.tunc.wayfolk.contract.network.LoadingType
 import com.tunc.wayfolk.contract.network.NetworkState
+import com.tunc.wayfolk.contract.network.RestResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

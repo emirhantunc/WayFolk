@@ -3,6 +3,8 @@ package com.tunc.android.wayfolk
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tunc.wayfolk.common.GraphState
+import com.tunc.wayfolk.core.presentation.ViewModelBehaviour
+import com.tunc.wayfolk.core.presentation.ViewModelBehaviourDelegate
 import com.tunc.wayfolk.navigation.home.HomeNavigation
 import com.tunc.wayfolk.navigation.model.NavigationTabProvider
 import kotlinx.coroutines.delay
@@ -11,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.collections.copy
 import kotlin.time.Duration.Companion.milliseconds
 
 private const val SPLASH_DURATION = 2000L
@@ -18,7 +21,7 @@ private const val SPLASH_DURATION = 2000L
 class MainViewModel(
     navigationTabProvider: NavigationTabProvider,
     private val homeScreenNavigation: HomeNavigation
-) : ViewModel() {
+) : ViewModelBehaviour by ViewModelBehaviourDelegate(), ViewModel() {
     private val _state = MutableStateFlow(
         MainActivityContract.State(
             tabItems = navigationTabProvider.getNavigationTabItems(),
@@ -38,6 +41,11 @@ class MainViewModel(
             is MainActivityContract.Action.OnSelectTab -> {
                 _state.update { state ->
                     state.copy(selectedTabRoute = action.item.router)
+                }
+            }
+            is MainActivityContract.Action.OnGraphStateChange -> {
+                _state.update { state ->
+                    state.copy(graphState = action.graphState)
                 }
             }
         }

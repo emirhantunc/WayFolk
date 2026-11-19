@@ -8,8 +8,13 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.feature.home.presentation)
-            implementation(projects.feature.home.data)
+            api(projects.feature.home.data)
             implementation(projects.feature.home.domain)
+            implementation(projects.core.presentation)
+            implementation(projects.designsystemkit)
+            implementation(projects.core.extension)
+            implementation(projects.feature)
+            implementation(projects.uicomponent)
         }
     }
 }
