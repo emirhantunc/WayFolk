@@ -5,7 +5,7 @@ plugins {
 }
 
 compose.resources {
-    publicResClass = true
+    publicResClass = false
     packageOfResClass = "com.tunc.wayfolk.multilanguage"
     nameOfResClass = "Strings"
 }

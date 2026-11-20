@@ -51,10 +51,11 @@ fun WayFolkNavHost(
         onBackCompleted = { topLevelBackStack.onSystemBack() }
     )
 
-    val entryDecorators = listOf(
-        rememberSaveableStateHolderNavEntryDecorator<NavKey>(),
-        rememberViewModelStoreNavEntryDecorator<NavKey>()
-    )
+    val saveableStateDecorator = rememberSaveableStateHolderNavEntryDecorator<NavKey>()
+    val viewModelStoreDecorator = rememberViewModelStoreNavEntryDecorator<NavKey>()
+    val entryDecorators = remember(saveableStateDecorator, viewModelStoreDecorator) {
+        listOf(saveableStateDecorator, viewModelStoreDecorator)
+    }
 
     SharedTransitionLayout {
         WayFolkLocalizationProvider(language = language) {

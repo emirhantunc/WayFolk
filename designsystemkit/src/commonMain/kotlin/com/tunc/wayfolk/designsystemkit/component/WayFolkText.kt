@@ -8,10 +8,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.tunc.wayfolk.designsystemkit.theme.typography.AppTypographyTokens
+import com.tunc.wayfolk.multilanguage.language.WayFolkStringResource
+import com.tunc.wayfolk.multilanguage.language.stringResource
 import com.tunc.wayfolk.multilanguage.text.UiText
 import com.tunc.wayfolk.multilanguage.text.asString
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WayFolkText(
@@ -36,7 +36,7 @@ fun WayFolkText(
 
 @Composable
 fun WayFolkText(
-    text: StringResource,
+    text: WayFolkStringResource,
     vararg formatArgs: Any,
     modifier: Modifier = Modifier,
     style: TextStyle = AppTypographyTokens.LargeTitle.regular.textStyle,

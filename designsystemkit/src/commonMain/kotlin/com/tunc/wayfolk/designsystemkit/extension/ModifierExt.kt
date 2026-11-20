@@ -64,7 +64,7 @@ fun Modifier.debounceClickable(
                 role = Role.Button
             }
         } else {
-            noRippleClickable {
+            noRippleClickable(enabled = enabled) {
                 if (clickDebouncer.tryClick()) onClick()
             }.semantics {
                 role = Role.Button

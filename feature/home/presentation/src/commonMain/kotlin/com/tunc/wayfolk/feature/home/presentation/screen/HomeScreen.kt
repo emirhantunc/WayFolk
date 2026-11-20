@@ -12,11 +12,7 @@ import com.tunc.wayfolk.designsystemkit.theme.typography.AppTypographyTokens
 import com.tunc.wayfolk.feature.base.BaseScreen
 import com.tunc.wayfolk.feature.home.presentation.component.WayFolkStory
 import com.tunc.wayfolk.feature.home.presentation.util.HomeConstants
-import com.tunc.wayfolk.multilanguage.Strings
-import com.tunc.wayfolk.multilanguage.home_empty_description
-import com.tunc.wayfolk.multilanguage.home_empty_title
-import com.tunc.wayfolk.multilanguage.home_stories_title
-import com.tunc.wayfolk.multilanguage.home_title
+import com.tunc.wayfolk.multilanguage.language.WayFolkStrings
 import org.koin.compose.viewmodel.koinViewModel
 
 
@@ -29,32 +25,9 @@ fun HomeScreen() {
         screenName = HomeConstants.Home.NAME,
         viewModel = viewModel,
         content = {
-            WayFolkText(
-                text = Strings.string.home_title,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+            WayFolkStory(
+                url = "https://img.magnific.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80",
             )
-            if (state.stories.isEmpty()) {
-                WayFolkText(
-                    text = Strings.string.home_empty_title,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    style = AppTypographyTokens.Headline.semiBold.textStyle,
-                )
-                WayFolkText(
-                    text = Strings.string.home_empty_description,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    style = AppTypographyTokens.Body.regular.textStyle,
-                )
-            } else {
-                WayFolkText(
-                    text = Strings.string.home_stories_title,
-                    style = AppTypographyTokens.Headline.semiBold.textStyle,
-                )
-                LazyRow {
-                    items(items = state.stories, key = { it.id }) { story ->
-                        WayFolkStory(url = story.imageUrl)
-                    }
-                }
-            }
         }
     )
 }

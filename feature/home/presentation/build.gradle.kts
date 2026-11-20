@@ -19,5 +19,11 @@ kotlin {
             implementation(projects.designsystemkit)
             implementation(projects.multilanguage)
         }
+        getByName("androidDeviceTest").dependencies {
+            implementation(libs.androidx.compose.uiTestJunit4)
+            implementation(libs.androidx.compose.uiTestManifest)
+            implementation(libs.coil.test)
+            implementation(libs.coil.compose)
+        }
     }
 }
