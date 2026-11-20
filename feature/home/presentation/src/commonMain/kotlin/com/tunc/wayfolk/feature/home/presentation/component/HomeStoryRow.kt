@@ -7,26 +7,27 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import com.tunc.wayfolk.feature.home.domain.model.HomeStory
+import com.tunc.wayfolk.designsystemkit.theme.AppThemeProvider
+import com.tunc.wayfolk.feature.home.presentation.model.HomeStoryUiModel
 import com.tunc.wayfolk.feature.home.presentation.model.StoryImageState
+import com.tunc.wayfolk.multilanguage.text.asString
 import kotlinx.collections.immutable.ImmutableList
 
 private const val STORY_CONTENT_TYPE = "story"
 
 @Composable
 internal fun HomeStoryRow(
-    stories: ImmutableList<HomeStory>,
+    stories: ImmutableList<HomeStoryUiModel>,
+    onStoryClick: (storyId: String) -> Unit,
     onStoryImageStateChange: (storyId: String, imageState: StoryImageState) -> Unit,
     modifier: Modifier = Modifier,
-    storySize: Dp = 55.dp,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
 ) {
+    val spacing = AppThemeProvider.spacing
+
     LazyRow(
         modifier = modifier.fillMaxWidth(),
-        contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(horizontal = spacing.space200, vertical = spacing.space150),
+        horizontalArrangement = Arrangement.spacedBy(spacing.space200),
     ) {
         items(
             items = stories,
@@ -34,8 +35,10 @@ internal fun HomeStoryRow(
             contentType = { STORY_CONTENT_TYPE },
         ) { story ->
             WayFolkStory(
-                url = story.imageUrl,
-                imageSize = storySize,
+                imageUrl = story.imageUrl,
+                username = story.username.asString(),
+                ring = story.ring,
+                onClick = { onStoryClick(story.id) },
                 onImageStateChange = { imageState -> onStoryImageStateChange(story.id, imageState) },
             )
         }

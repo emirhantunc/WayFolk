@@ -16,4 +16,40 @@
         <item quantity="one">%1$d new post</item>
         <item quantity="other">%1$d new posts</item>
     </plurals>
+
+    <string name="common_thousands_separator">,</string>
+
+    <string name="home_top_bar_title">roamr</string>
+    <string name="home_your_story">Your story</string>
+    <string name="home_cd_notifications">Notifications</string>
+    <string name="home_cd_messages">Messages</string>
+    <string name="home_cd_like">Like</string>
+    <string name="home_cd_unlike">Unlike</string>
+    <string name="home_cd_comment">Comment</string>
+    <string name="home_cd_share">Share</string>
+    <string name="home_cd_save">Save</string>
+    <string name="home_cd_more_options">More options</string>
+    <string name="home_cd_story">%1$s's story</string>
+    <string name="home_cd_post_image">Photo by %1$s</string>
+    <string name="home_time_just_now">Just now</string>
+    <plurals name="home_post_likes">
+        <item quantity="one">%1$s like</item>
+        <item quantity="other">%1$s likes</item>
+    </plurals>
+    <plurals name="home_post_view_comments">
+        <item quantity="one">View %1$d comment</item>
+        <item quantity="other">View all %1$d comments</item>
+    </plurals>
+    <plurals name="home_time_minutes_ago">
+        <item quantity="one">%1$dm ago</item>
+        <item quantity="other">%1$dm ago</item>
+    </plurals>
+    <plurals name="home_time_hours_ago">
+        <item quantity="one">%1$dh ago</item>
+        <item quantity="other">%1$dh ago</item>
+    </plurals>
+    <plurals name="home_time_days_ago">
+        <item quantity="one">%1$dd ago</item>
+        <item quantity="other">%1$dd ago</item>
+    </plurals>
 </resources>

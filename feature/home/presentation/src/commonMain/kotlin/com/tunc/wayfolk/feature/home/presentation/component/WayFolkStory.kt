@@ -1,13 +1,9 @@
 package com.tunc.wayfolk.feature.home.presentation.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,30 +12,37 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tunc.wayfolk.designsystemkit.component.WayFolkText
+import com.tunc.wayfolk.designsystemkit.extension.debounceClickable
 import com.tunc.wayfolk.designsystemkit.theme.AppThemeProvider
 import com.tunc.wayfolk.designsystemkit.theme.typography.AppTypographyTokens
 import com.tunc.wayfolk.feature.home.presentation.model.StoryImageState
 import com.tunc.wayfolk.logger.WayFolkLogger
 import com.tunc.wayfolk.multilanguage.language.WayFolkStrings
 import com.tunc.wayfolk.multilanguage.language.stringResource
-import com.tunc.wayfolk.uicomponent.asyncimage.WayFolkAsyncImage
+import com.tunc.wayfolk.uicomponent.avatar.WayFolkAvatarRing
+import com.tunc.wayfolk.uicomponent.avatar.WayFolkRingAvatar
+import com.tunc.wayfolk.uicomponent.avatar.WayFolkRingAvatarDefaults
 
 private const val LOG_TAG = "WayFolkStory"
 
 @Composable
 fun WayFolkStory(
-    url: String,
+    imageUrl: String,
+    username: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    imageSize: Dp = WayFolkStoryDefaults.ImageSize,
+    ring: WayFolkAvatarRing = WayFolkAvatarRing.Active,
+    avatarSize: Dp = WayFolkStoryDefaults.AvatarSize,
     onImageStateChange: (StoryImageState) -> Unit = {},
-    loadingContent: @Composable BoxScope.() -> Unit = { WayFolkStoryDefaults.LoadingIndicator() },
+    loadingContent: @Composable BoxScope.() -> Unit = {},
     errorContent: @Composable BoxScope.() -> Unit = {},
 ) {
-    var imageState by remember(url) { mutableStateOf(StoryImageState.Loading) }
+    var imageState by remember(imageUrl) { mutableStateOf(StoryImageState.Loading) }
     val currentOnImageStateChange by rememberUpdatedState(onImageStateChange)
 
     fun updateImageState(newState: StoryImageState) {
@@ -48,59 +51,45 @@ fun WayFolkStory(
     }
 
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .width(avatarSize)
+            .debounceClickable(onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(WayFolkStoryDefaults.ContentSpacing),
     ) {
-        Box(
-            modifier = Modifier
-                .size(imageSize)
-                .clip(CircleShape)
-                .background(AppThemeProvider.colors.surfaceContainerHigh.color),
-            contentAlignment = Alignment.Center,
-        ) {
-            WayFolkAsyncImage(
-                url = url,
-                contentDescription = stringResource(WayFolkStrings.Home.storyImageDescription),
-                modifier = Modifier.matchParentSize(),
-                onLoading = { updateImageState(StoryImageState.Loading) },
-                onSuccess = { state ->
-                    updateImageState(StoryImageState.Success)
-                    WayFolkLogger.d(message = "Loaded $url from ${state.result.dataSource}", tag = LOG_TAG)
-                },
-                onError = { state ->
-                    updateImageState(StoryImageState.Error)
-                    WayFolkLogger.e(e = state.result.throwable, tag = LOG_TAG)
-                },
-            )
-
-            when (imageState) {
-                StoryImageState.Loading -> loadingContent()
-                StoryImageState.Error -> errorContent()
-                StoryImageState.Success -> Unit
-            }
-        }
+        WayFolkRingAvatar(
+            imageUrl = imageUrl,
+            contentDescription = stringResource(WayFolkStrings.Home.storyDescription, username),
+            size = avatarSize,
+            ringWidth = WayFolkRingAvatarDefaults.LargeRingWidth,
+            ring = ring,
+            onLoading = { updateImageState(StoryImageState.Loading) },
+            onSuccess = { updateImageState(StoryImageState.Success) },
+            onError = { state ->
+                updateImageState(StoryImageState.Error)
+                WayFolkLogger.e(e = state.result.throwable, tag = LOG_TAG)
+            },
+            overlay = {
+                when (imageState) {
+                    StoryImageState.Loading -> loadingContent()
+                    StoryImageState.Error -> errorContent()
+                    StoryImageState.Success -> Unit
+                }
+            },
+        )
 
         WayFolkText(
-            text = WayFolkStrings.Home.storyImageDescription,
-            style = AppTypographyTokens.Caption.regular.textStyle,
+            text = username,
+            style = AppTypographyTokens.Footnote.regular.textStyle,
+            color = AppThemeProvider.colors.textSecondary.color,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center,
         )
     }
 }
 
 object WayFolkStoryDefaults {
-
-    val ImageSize: Dp = 72.dp
-    val ContentSpacing: Dp = 4.dp
-    val LoadingIndicatorSize: Dp = 24.dp
-    val LoadingIndicatorStrokeWidth: Dp = 2.dp
-
-    @Composable
-    fun LoadingIndicator(modifier: Modifier = Modifier) {
-        CircularProgressIndicator(
-            modifier = modifier.size(LoadingIndicatorSize),
-            color = AppThemeProvider.colors.primary.color,
-            strokeWidth = LoadingIndicatorStrokeWidth,
-        )
-    }
+    val AvatarSize: Dp = WayFolkRingAvatarDefaults.LargeSize
+    val ContentSpacing: Dp = 6.dp
 }

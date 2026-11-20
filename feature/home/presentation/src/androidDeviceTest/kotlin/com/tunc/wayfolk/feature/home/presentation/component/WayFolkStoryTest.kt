@@ -44,7 +44,7 @@ class WayFolkStoryTest {
     private val slowImageGate = CompletableDeferred<Unit>()
 
     private val storyImageDescription: String by lazy {
-        runBlocking { getString(WayFolkStrings.Home.storyImageDescription) }
+        runBlocking { getString(WayFolkStrings.Home.storyDescription, USERNAME) }
     }
 
     @Before
@@ -79,22 +79,22 @@ class WayFolkStoryTest {
     }
 
     @Test
-    fun showsStoryImageDescriptionText() {
-        composeRule.setContent { WayFolkStory(url = STORY_URL) }
+    fun showsUsername() {
+        composeRule.setContent { WayFolkStory(imageUrl = STORY_URL, username = USERNAME, onClick = {}) }
 
-        composeRule.onNodeWithText(storyImageDescription).assertIsDisplayed()
+        composeRule.onNodeWithText(USERNAME).assertIsDisplayed()
     }
 
     @Test
     fun imageHasLocalizedContentDescription() {
-        composeRule.setContent { WayFolkStory(url = STORY_URL) }
+        composeRule.setContent { WayFolkStory(imageUrl = STORY_URL, username = USERNAME, onClick = {}) }
 
         composeRule.onNodeWithContentDescription(storyImageDescription).assertExists()
     }
 
     @Test
     fun requestsImageForGivenUrl() {
-        composeRule.setContent { WayFolkStory(url = STORY_URL) }
+        composeRule.setContent { WayFolkStory(imageUrl = STORY_URL, username = USERNAME, onClick = {}) }
 
         composeRule.waitUntil(timeoutMillis = TIMEOUT_MILLIS) { requestedData.isNotEmpty() }
 
@@ -103,7 +103,7 @@ class WayFolkStoryTest {
 
     @Test
     fun displaysImageAfterLoading() {
-        composeRule.setContent { WayFolkStory(url = STORY_URL) }
+        composeRule.setContent { WayFolkStory(imageUrl = STORY_URL, username = USERNAME, onClick = {}) }
 
         composeRule.waitUntil(timeoutMillis = TIMEOUT_MILLIS) { requestedData.isNotEmpty() }
         composeRule.waitForIdle()
@@ -114,7 +114,12 @@ class WayFolkStoryTest {
     @Test
     fun reportsSuccessWhenImageLoads() {
         composeRule.setContent {
-            WayFolkStory(url = STORY_URL, onImageStateChange = { reportedStates += it })
+            WayFolkStory(
+                imageUrl = STORY_URL,
+                username = USERNAME,
+                onClick = {},
+                onImageStateChange = { reportedStates += it },
+            )
         }
 
         composeRule.waitUntil(timeoutMillis = TIMEOUT_MILLIS) { reportedStates.contains(StoryImageState.Success) }
@@ -127,7 +132,9 @@ class WayFolkStoryTest {
     fun reportsErrorAndShowsErrorContentWhenImageFails() {
         composeRule.setContent {
             WayFolkStory(
-                url = MISSING_STORY_URL,
+                imageUrl = MISSING_STORY_URL,
+                username = USERNAME,
+                onClick = {},
                 onImageStateChange = { reportedStates += it },
                 errorContent = { Box(modifier = Modifier.testTag(ERROR_TAG)) },
             )
@@ -135,29 +142,32 @@ class WayFolkStoryTest {
 
         composeRule.waitUntil(timeoutMillis = TIMEOUT_MILLIS) { reportedStates.contains(StoryImageState.Error) }
 
-        composeRule.onNodeWithTag(ERROR_TAG).assertExists()
+        composeRule.onNodeWithTag(ERROR_TAG, useUnmergedTree = true).assertExists()
     }
 
     @Test
     fun showsLoadingContentUntilImageLoads() {
         composeRule.setContent {
             WayFolkStory(
-                url = SLOW_STORY_URL,
+                imageUrl = SLOW_STORY_URL,
+                username = USERNAME,
+                onClick = {},
                 onImageStateChange = { reportedStates += it },
                 loadingContent = { Box(modifier = Modifier.testTag(LOADING_TAG)) },
             )
         }
 
-        composeRule.onNodeWithTag(LOADING_TAG).assertExists()
+        composeRule.onNodeWithTag(LOADING_TAG, useUnmergedTree = true).assertExists()
 
         slowImageGate.complete(Unit)
         composeRule.waitUntil(timeoutMillis = TIMEOUT_MILLIS) { reportedStates.contains(StoryImageState.Success) }
 
-        composeRule.onNodeWithTag(LOADING_TAG).assertDoesNotExist()
+        composeRule.onNodeWithTag(LOADING_TAG, useUnmergedTree = true).assertDoesNotExist()
     }
 
     private companion object {
         const val STORY_URL = "https://example.com/story.jpg"
+        const val USERNAME = "ana.travel"
         const val SLOW_STORY_URL = "https://example.com/slow-story.jpg"
         const val MISSING_STORY_URL = "https://example.com/missing-story.jpg"
         const val LOADING_TAG = "story_loading"

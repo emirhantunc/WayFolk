@@ -1,7 +1,8 @@
 package com.tunc.wayfolk.feature.home.presentation.screen
 
 import androidx.compose.runtime.Immutable
-import com.tunc.wayfolk.feature.home.domain.model.HomeStory
+import com.tunc.wayfolk.feature.home.presentation.model.HomePostUiModel
+import com.tunc.wayfolk.feature.home.presentation.model.HomeStoryUiModel
 import com.tunc.wayfolk.feature.home.presentation.model.StoryImageState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentMap
@@ -12,16 +13,23 @@ internal object HomeScreenContract {
 
     @Immutable
     data class State(
-        val stories: ImmutableList<HomeStory> = persistentListOf(),
+        val stories: ImmutableList<HomeStoryUiModel> = persistentListOf(),
+        val posts: ImmutableList<HomePostUiModel> = persistentListOf(),
+        val hasUnreadMessages: Boolean = false,
         val storyImageStates: PersistentMap<String, StoryImageState> = persistentMapOf(),
     )
 
     sealed interface Action {
         data object OnRetry : Action
-
-        data class OnStoryImageStateChange(
-            val storyId: String,
-            val imageState: StoryImageState,
-        ) : Action
+        data object OnNotificationsClick : Action
+        data object OnMessagesClick : Action
+        data class OnStoryClick(val storyId: String) : Action
+        data class OnStoryImageStateChange(val storyId: String, val imageState: StoryImageState) : Action
+        data class OnPostAuthorClick(val authorId: String) : Action
+        data class OnPostMoreClick(val postId: String) : Action
+        data class OnPostLikeClick(val postId: String) : Action
+        data class OnPostCommentClick(val postId: String) : Action
+        data class OnPostShareClick(val postId: String) : Action
+        data class OnPostSaveClick(val postId: String) : Action
     }
 }

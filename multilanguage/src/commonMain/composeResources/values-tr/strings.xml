@@ -16,4 +16,40 @@
         <item quantity="one">%1$d yeni gönderi</item>
         <item quantity="other">%1$d yeni gönderi</item>
     </plurals>
+
+    <string name="common_thousands_separator">.</string>
+
+    <string name="home_top_bar_title">roamr</string>
+    <string name="home_your_story">Hikayen</string>
+    <string name="home_cd_notifications">Bildirimler</string>
+    <string name="home_cd_messages">Mesajlar</string>
+    <string name="home_cd_like">Beğen</string>
+    <string name="home_cd_unlike">Beğenmekten vazgeç</string>
+    <string name="home_cd_comment">Yorum yap</string>
+    <string name="home_cd_share">Paylaş</string>
+    <string name="home_cd_save">Kaydet</string>
+    <string name="home_cd_more_options">Diğer seçenekler</string>
+    <string name="home_cd_story">%1$s hikayesi</string>
+    <string name="home_cd_post_image">%1$s tarafından paylaşılan fotoğraf</string>
+    <string name="home_time_just_now">Az önce</string>
+    <plurals name="home_post_likes">
+        <item quantity="one">%1$s beğenme</item>
+        <item quantity="other">%1$s beğenme</item>
+    </plurals>
+    <plurals name="home_post_view_comments">
+        <item quantity="one">%1$d yorumu gör</item>
+        <item quantity="other">%1$d yorumun tümünü gör</item>
+    </plurals>
+    <plurals name="home_time_minutes_ago">
+        <item quantity="one">%1$d dk önce</item>
+        <item quantity="other">%1$d dk önce</item>
+    </plurals>
+    <plurals name="home_time_hours_ago">
+        <item quantity="one">%1$d sa önce</item>
+        <item quantity="other">%1$d sa önce</item>
+    </plurals>
+    <plurals name="home_time_days_ago">
+        <item quantity="one">%1$d g önce</item>
+        <item quantity="other">%1$d g önce</item>
+    </plurals>
 </resources>
