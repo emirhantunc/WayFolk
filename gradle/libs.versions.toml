@@ -26,6 +26,7 @@ kotlinStdlib = "2.4.20"
 runner = "1.5.2"
 core = "1.5.0"
 ktor = "3.6.1"
+kotlinx-collections-immutable = "0.5.2"
 
 [libraries]
 
@@ -34,6 +35,7 @@ coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.r
 coil-test = { module = "io.coil-kt.coil3:coil-test", version.ref = "coilCompose" }
 androidx-compose-uiTestJunit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "composeMultiplatform" }
 androidx-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeMultiplatform" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 logcat = { module = "com.squareup.logcat:logcat", version.ref = "logcat" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
