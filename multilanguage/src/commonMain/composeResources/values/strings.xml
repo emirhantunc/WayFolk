@@ -20,7 +20,7 @@
 
     <string name="common_thousands_separator">,</string>
 
-    <string name="home_top_bar_title">roamr</string>
+    <string name="home_top_bar_title">Home</string>
     <string name="home_your_story">Your story</string>
     <string name="home_cd_notifications">Notifications</string>
     <string name="home_cd_messages">Messages</string>
