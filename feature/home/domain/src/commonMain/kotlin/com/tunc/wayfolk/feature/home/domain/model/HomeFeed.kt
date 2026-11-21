@@ -4,6 +4,7 @@ data class HomeFeed(
     val stories: List<HomeStory>,
     val posts: List<HomePost>,
     val hasUnreadMessages: Boolean,
+    val nextCursor: String?,
 )
 
 data class HomeStory(

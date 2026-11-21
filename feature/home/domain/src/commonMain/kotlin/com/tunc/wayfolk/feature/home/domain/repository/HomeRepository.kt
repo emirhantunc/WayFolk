@@ -5,5 +5,5 @@ import com.tunc.wayfolk.feature.home.domain.model.HomeFeed
 import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
-    fun getFeed(): Flow<RestResult<HomeFeed>>
+    fun getFeed(cursor: String?, pageSize: Int): Flow<RestResult<HomeFeed>>
 }

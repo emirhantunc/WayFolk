@@ -8,6 +8,7 @@ internal data class HomeFeedResponse(
     @SerialName("stories") val stories: List<HomeStoryResponse>? = null,
     @SerialName("posts") val posts: List<HomePostResponse>? = null,
     @SerialName("hasUnreadMessages") val hasUnreadMessages: Boolean? = null,
+    @SerialName("nextCursor") val nextCursor: String? = null,
 )
 
 @Serializable

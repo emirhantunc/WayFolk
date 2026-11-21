@@ -21,6 +21,7 @@ import com.tunc.wayfolk.multilanguage.home_time_minutes_ago
 import com.tunc.wayfolk.multilanguage.home_time_hours_ago
 import com.tunc.wayfolk.multilanguage.home_time_days_ago
 import com.tunc.wayfolk.multilanguage.common_no_internet
+import com.tunc.wayfolk.multilanguage.common_load_more_error
 import com.tunc.wayfolk.multilanguage.home_empty_description
 import com.tunc.wayfolk.multilanguage.home_empty_title
 import com.tunc.wayfolk.multilanguage.home_greeting
@@ -37,6 +38,7 @@ object WayFolkStrings {
 
     object Common {
         val noInternet = WayFolkStringResource(Strings.string.common_no_internet)
+        val loadMoreError = WayFolkStringResource(Strings.string.common_load_more_error)
         val thousandsSeparator = WayFolkStringResource(Strings.string.common_thousands_separator)
     }
 

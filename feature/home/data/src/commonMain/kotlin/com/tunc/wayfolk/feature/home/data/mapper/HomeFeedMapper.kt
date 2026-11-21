@@ -13,6 +13,7 @@ internal fun HomeFeedResponse.toDomain(): HomeFeed = HomeFeed(
     stories = stories.orEmpty().mapNotNull { it.toDomain() },
     posts = posts.orEmpty().mapNotNull { it.toDomain() },
     hasUnreadMessages = hasUnreadMessages ?: false,
+    nextCursor = nextCursor?.takeIf { it.isNotBlank() },
 )
 
 private fun HomeStoryResponse.toDomain(): HomeStory? {

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,11 +18,15 @@ import com.tunc.wayfolk.feature.home.presentation.component.HomePostCard
 import com.tunc.wayfolk.feature.home.presentation.component.HomeStoryRow
 import com.tunc.wayfolk.feature.home.presentation.component.HomeTopBar
 import com.tunc.wayfolk.feature.home.presentation.util.HomeConstants
+import com.tunc.wayfolk.uicomponent.pagination.OnPaginationThreshold
+import com.tunc.wayfolk.uicomponent.pagination.WayFolkPaginationFooter
 import org.koin.compose.viewmodel.koinViewModel
 
 private const val STORIES_KEY = "home_stories"
 private const val STORIES_CONTENT_TYPE = "stories"
 private const val POST_CONTENT_TYPE = "post"
+private const val FOOTER_KEY = "home_pagination_footer"
+private const val FOOTER_CONTENT_TYPE = "pagination_footer"
 private val DividerThickness = 1.dp
 
 @Composable
@@ -34,6 +39,7 @@ fun HomeScreen() {
         modifier = Modifier.fillMaxSize(),
         screenName = HomeConstants.Home.NAME,
         viewModel = viewModel,
+        showBottomAppBar = true,
         containerColor = AppThemeProvider.colors.background,
         content = {
             HomeContent(state = state, onAction = onAction)
@@ -48,6 +54,14 @@ internal fun HomeContent(
     modifier: Modifier = Modifier,
 ) {
     val dividerColor = AppThemeProvider.colors.divider.color
+    val listState = rememberLazyListState()
+    val pagination = state.pagination
+
+    listState.OnPaginationThreshold(
+        enabled = state.posts.isNotEmpty() && !pagination.endReached && !pagination.hasError,
+        prefetchDistance = HomeConstants.Feed.PREFETCH_DISTANCE,
+        onLoadMore = { onAction(HomeScreenContract.Action.OnLoadMore) },
+    )
 
     Column(modifier = modifier.fillMaxSize()) {
         HomeTopBar(
@@ -57,7 +71,7 @@ internal fun HomeContent(
         )
         HorizontalDivider(thickness = DividerThickness, color = dividerColor)
 
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(modifier = Modifier.fillMaxSize(), state = listState) {
             item(key = STORIES_KEY, contentType = STORIES_CONTENT_TYPE) {
                 HomeStoryRow(
                     stories = state.stories,
@@ -84,6 +98,16 @@ internal fun HomeContent(
                     onSaveClick = { onAction(HomeScreenContract.Action.OnPostSaveClick(post.id)) },
                 )
                 HorizontalDivider(thickness = DividerThickness, color = dividerColor)
+            }
+
+            if (pagination.isLoadingNextPage || pagination.hasNextPageError) {
+                item(key = FOOTER_KEY, contentType = FOOTER_CONTENT_TYPE) {
+                    WayFolkPaginationFooter(
+                        isLoading = pagination.isLoadingNextPage,
+                        hasError = pagination.hasNextPageError,
+                        onRetry = { onAction(HomeScreenContract.Action.OnLoadMore) },
+                    )
+                }
             }
         }
     }

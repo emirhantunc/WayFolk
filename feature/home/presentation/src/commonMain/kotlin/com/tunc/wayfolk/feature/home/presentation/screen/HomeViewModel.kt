@@ -1,36 +1,56 @@
 package com.tunc.wayfolk.feature.home.presentation.screen
 
 import androidx.lifecycle.viewModelScope
-import com.tunc.wayfolk.contract.network.RestResult
+import com.tunc.wayfolk.contract.network.ErrorType
+import com.tunc.wayfolk.contract.network.LoadingType
 import com.tunc.wayfolk.core.presentation.CoreViewModel
+import com.tunc.wayfolk.core.presentation.pagination.PaginationBehaviour
+import com.tunc.wayfolk.core.presentation.pagination.PaginationBehaviourDelegate
 import com.tunc.wayfolk.feature.home.domain.model.HomeFeed
 import com.tunc.wayfolk.feature.home.domain.repository.HomeRepository
 import com.tunc.wayfolk.feature.home.presentation.mapper.HomeUiMapper
 import com.tunc.wayfolk.feature.home.presentation.model.HomePostUiModel
 import com.tunc.wayfolk.feature.home.presentation.model.StoryImageState
+import com.tunc.wayfolk.feature.home.presentation.util.HomeConstants
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
 internal class HomeViewModel(
     private val homeRepository: HomeRepository,
     private val homeUiMapper: HomeUiMapper,
-) : CoreViewModel() {
+) : CoreViewModel(),
+    PaginationBehaviour<String, HomeFeed> by PaginationBehaviourDelegate() {
 
     private val _state = MutableStateFlow(HomeScreenContract.State())
     val state: StateFlow<HomeScreenContract.State> = _state.asStateFlow()
 
     init {
-        loadFeed()
+        setupPagination(
+            scope = viewModelScope,
+            request = { cursor, isFirstPage ->
+                safeFlowApiCall(
+                    loadingType = if (isFirstPage) LoadingType.Content else LoadingType.None,
+                    errorType = if (isFirstPage) ErrorType.Content else ErrorType.None,
+                ) {
+                    homeRepository.getFeed(cursor = cursor, pageSize = HomeConstants.Feed.PAGE_SIZE)
+                }
+            },
+            nextKey = HomeFeed::nextCursor,
+            onPageLoaded = ::onFeedPageLoaded,
+            onStateChange = { pagination ->
+                _state.update { state -> state.copy(pagination = pagination) }
+            },
+        )
+        loadNextPage()
     }
 
     fun onAction(action: HomeScreenContract.Action) {
         when (action) {
-            HomeScreenContract.Action.OnRetry -> loadFeed()
+            HomeScreenContract.Action.OnRetry -> refreshPagination()
+            HomeScreenContract.Action.OnLoadMore -> loadNextPage()
             is HomeScreenContract.Action.OnStoryImageStateChange -> updateStoryImageState(action.storyId, action.imageState)
             is HomeScreenContract.Action.OnPostLikeClick -> updatePost(action.postId) { post ->
                 post.copy(
@@ -51,21 +71,21 @@ internal class HomeViewModel(
         }
     }
 
-    private fun loadFeed() {
-        safeFlowApiCall { homeRepository.getFeed() }
-            .onEach { result ->
-                if (result is RestResult.Success) onFeedLoaded(result.result)
-            }
-            .launchIn(viewModelScope)
-    }
-
-    private fun onFeedLoaded(feed: HomeFeed) {
+    private fun onFeedPageLoaded(feed: HomeFeed, isFirstPage: Boolean) {
+        val newPosts = feed.posts.map(homeUiMapper::toUiModel)
         _state.update { state ->
-            state.copy(
-                stories = feed.stories.map(homeUiMapper::toUiModel).toImmutableList(),
-                posts = feed.posts.map(homeUiMapper::toUiModel).toImmutableList(),
-                hasUnreadMessages = feed.hasUnreadMessages,
-            )
+            if (isFirstPage) {
+                state.copy(
+                    stories = feed.stories.map(homeUiMapper::toUiModel).toImmutableList(),
+                    posts = newPosts.distinctBy { post -> post.id }.toImmutableList(),
+                    hasUnreadMessages = feed.hasUnreadMessages,
+                )
+            } else {
+                state.copy(
+                    posts = (state.posts + newPosts).distinctBy { post -> post.id }.toImmutableList(),
+                    hasUnreadMessages = feed.hasUnreadMessages,
+                )
+            }
         }
     }
 
