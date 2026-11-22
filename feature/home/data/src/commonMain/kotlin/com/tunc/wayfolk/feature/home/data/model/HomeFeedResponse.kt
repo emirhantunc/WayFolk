@@ -1,4 +1,4 @@
-package com.tunc.wayfolk.feature.home.data.remote.dto
+package com.tunc.wayfolk.feature.home.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

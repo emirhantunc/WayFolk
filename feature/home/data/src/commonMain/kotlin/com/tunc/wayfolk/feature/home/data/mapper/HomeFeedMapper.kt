@@ -1,9 +1,9 @@
 package com.tunc.wayfolk.feature.home.data.mapper
 
-import com.tunc.wayfolk.feature.home.data.remote.dto.HomeFeedResponse
-import com.tunc.wayfolk.feature.home.data.remote.dto.HomePostAuthorResponse
-import com.tunc.wayfolk.feature.home.data.remote.dto.HomePostResponse
-import com.tunc.wayfolk.feature.home.data.remote.dto.HomeStoryResponse
+import com.tunc.wayfolk.feature.home.data.model.HomeFeedResponse
+import com.tunc.wayfolk.feature.home.data.model.HomePostAuthorResponse
+import com.tunc.wayfolk.feature.home.data.model.HomePostResponse
+import com.tunc.wayfolk.feature.home.data.model.HomeStoryResponse
 import com.tunc.wayfolk.feature.home.domain.model.HomeFeed
 import com.tunc.wayfolk.feature.home.domain.model.HomePost
 import com.tunc.wayfolk.feature.home.domain.model.HomePostAuthor
