@@ -24,6 +24,10 @@
     <string name="home_your_story">Your story</string>
     <string name="home_cd_notifications">Notifications</string>
     <string name="home_cd_messages">Messages</string>
+    <plurals name="home_cd_unread_messages">
+        <item quantity="one">Messages, %1$d unread</item>
+        <item quantity="other">Messages, %1$d unread</item>
+    </plurals>
     <string name="home_cd_like">Like</string>
     <string name="home_cd_unlike">Unlike</string>
     <string name="home_cd_comment">Comment</string>

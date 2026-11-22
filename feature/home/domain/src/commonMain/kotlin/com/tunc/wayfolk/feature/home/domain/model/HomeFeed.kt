@@ -3,7 +3,6 @@ package com.tunc.wayfolk.feature.home.domain.model
 data class HomeFeed(
     val stories: List<HomeStory>,
     val posts: List<HomePost>,
-    val hasUnreadMessages: Boolean,
     val nextCursor: String?,
 )
 

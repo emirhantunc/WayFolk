@@ -16,7 +16,7 @@ internal object HomeScreenContract {
     data class State(
         val stories: ImmutableList<HomeStoryUiModel> = persistentListOf(),
         val posts: ImmutableList<HomePostUiModel> = persistentListOf(),
-        val hasUnreadMessages: Boolean = false,
+        val unreadMessagesCount: Int = 0,
         val storyImageStates: PersistentMap<String, StoryImageState> = persistentMapOf(),
         val pagination: PaginationState = PaginationState(),
     )

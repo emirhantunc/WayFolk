@@ -24,6 +24,10 @@
     <string name="home_your_story">Hikayen</string>
     <string name="home_cd_notifications">Bildirimler</string>
     <string name="home_cd_messages">Mesajlar</string>
+    <plurals name="home_cd_unread_messages">
+        <item quantity="one">Mesajlar, %1$d okunmamış</item>
+        <item quantity="other">Mesajlar, %1$d okunmamış</item>
+    </plurals>
     <string name="home_cd_like">Beğen</string>
     <string name="home_cd_unlike">Beğenmekten vazgeç</string>
     <string name="home_cd_comment">Yorum yap</string>

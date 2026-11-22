@@ -6,6 +6,7 @@ import com.tunc.wayfolk.core.network.sendRequest
 import com.tunc.wayfolk.feature.home.data.constant.HomeEndpoints
 import com.tunc.wayfolk.feature.home.data.mapper.toDomain
 import com.tunc.wayfolk.feature.home.data.model.HomeFeedResponse
+import com.tunc.wayfolk.feature.home.data.model.UnreadMessagesCountResponse
 import com.tunc.wayfolk.feature.home.domain.model.HomeFeed
 import com.tunc.wayfolk.feature.home.domain.repository.HomeRepository
 import io.ktor.client.HttpClient
@@ -24,6 +25,13 @@ internal class HomeRepositoryImpl(
                     HomeEndpoints.QueryParam.CURSOR to cursor,
                     HomeEndpoints.QueryParam.LIMIT to pageSize,
                 ),
+            ).toDomain()
+        }
+
+    override fun getUnreadMessagesCount(): Flow<RestResult<Int>> =
+        apiHandler.safeApiCall {
+            httpClient.sendRequest<UnreadMessagesCountResponse>(
+                endpoint = HomeEndpoints.UNREAD_MESSAGES_COUNT,
             ).toDomain()
         }
 }
