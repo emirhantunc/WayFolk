@@ -7,8 +7,7 @@ import com.tunc.wayfolk.navigation.model.router.ComposeTabScreenRouter
 import com.tunc.wayfolk.resources.Res
 import com.tunc.wayfolk.multilanguage.language.WayFolkStringResource
 import com.tunc.wayfolk.multilanguage.language.WayFolkStrings
-import com.tunc.wayfolk.resources.ic_home_filled
-import com.tunc.wayfolk.resources.ic_home_outlined
+import com.tunc.wayfolk.resources.ic_feed
 import org.jetbrains.compose.resources.DrawableResource
 
 internal class HomeNavigationItem : BottomNavigationItem {
@@ -17,10 +16,10 @@ internal class HomeNavigationItem : BottomNavigationItem {
         get() = WayFolkStrings.Home.tabTitle
 
     override val icon: DrawableResource
-        get() = Res.drawable.ic_home_filled
+        get() = Res.drawable.ic_feed
 
     override val unSelectedIcon: DrawableResource
-        get() = Res.drawable.ic_home_outlined
+        get() = Res.drawable.ic_feed
 
     override val router: ComposeTabScreenRouter
         get() = HomeRouter.Home

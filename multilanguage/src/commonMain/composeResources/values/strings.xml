@@ -53,4 +53,11 @@
         <item quantity="one">%1$dd ago</item>
         <item quantity="other">%1$dd ago</item>
     </plurals>
+
+    <string name="common_coming_soon">Coming soon</string>
+
+    <string name="map_tab_title">Map</string>
+    <string name="rooms_tab_title">Rooms</string>
+    <string name="search_tab_title">Search</string>
+    <string name="profile_tab_title">Profile</string>
 </resources>

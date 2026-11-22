@@ -53,4 +53,11 @@
         <item quantity="one">%1$d g önce</item>
         <item quantity="other">%1$d g önce</item>
     </plurals>
+
+    <string name="common_coming_soon">Çok yakında</string>
+
+    <string name="map_tab_title">Harita</string>
+    <string name="rooms_tab_title">Odalar</string>
+    <string name="search_tab_title">Ara</string>
+    <string name="profile_tab_title">Profil</string>
 </resources>

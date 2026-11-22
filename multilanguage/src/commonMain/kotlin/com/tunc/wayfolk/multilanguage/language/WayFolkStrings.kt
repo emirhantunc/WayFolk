@@ -21,6 +21,11 @@ import com.tunc.wayfolk.multilanguage.home_time_minutes_ago
 import com.tunc.wayfolk.multilanguage.home_time_hours_ago
 import com.tunc.wayfolk.multilanguage.home_time_days_ago
 import com.tunc.wayfolk.multilanguage.common_no_internet
+import com.tunc.wayfolk.multilanguage.common_coming_soon
+import com.tunc.wayfolk.multilanguage.map_tab_title
+import com.tunc.wayfolk.multilanguage.rooms_tab_title
+import com.tunc.wayfolk.multilanguage.search_tab_title
+import com.tunc.wayfolk.multilanguage.profile_tab_title
 import com.tunc.wayfolk.multilanguage.common_load_more_error
 import com.tunc.wayfolk.multilanguage.home_empty_description
 import com.tunc.wayfolk.multilanguage.home_empty_title
@@ -39,6 +44,7 @@ object WayFolkStrings {
     object Common {
         val noInternet = WayFolkStringResource(Strings.string.common_no_internet)
         val loadMoreError = WayFolkStringResource(Strings.string.common_load_more_error)
+        val comingSoon = WayFolkStringResource(Strings.string.common_coming_soon)
         val thousandsSeparator = WayFolkStringResource(Strings.string.common_thousands_separator)
     }
 
@@ -75,5 +81,21 @@ object WayFolkStrings {
         val timeMinutesAgo = WayFolkPluralResource(Strings.plurals.home_time_minutes_ago)
         val timeHoursAgo = WayFolkPluralResource(Strings.plurals.home_time_hours_ago)
         val timeDaysAgo = WayFolkPluralResource(Strings.plurals.home_time_days_ago)
+    }
+
+    object Map {
+        val tabTitle = WayFolkStringResource(Strings.string.map_tab_title)
+    }
+
+    object Rooms {
+        val tabTitle = WayFolkStringResource(Strings.string.rooms_tab_title)
+    }
+
+    object Search {
+        val tabTitle = WayFolkStringResource(Strings.string.search_tab_title)
+    }
+
+    object Profile {
+        val tabTitle = WayFolkStringResource(Strings.string.profile_tab_title)
     }
 }
