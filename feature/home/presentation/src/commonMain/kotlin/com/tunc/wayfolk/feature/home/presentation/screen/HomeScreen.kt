@@ -55,7 +55,7 @@ internal fun HomeContent(
 
     Column(modifier = modifier.fillMaxSize()) {
         HomeTopBar(
-            hasUnreadMessages = state.hasUnreadMessages,
+            unreadMessagesCount = state.unreadMessagesCount,
             onNotificationsClick = { onAction(HomeScreenContract.Action.OnNotificationsClick) },
             onMessagesClick = { onAction(HomeScreenContract.Action.OnMessagesClick) },
         )

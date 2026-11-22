@@ -6,6 +6,7 @@ import com.tunc.wayfolk.multilanguage.home_top_bar_title
 import com.tunc.wayfolk.multilanguage.home_your_story
 import com.tunc.wayfolk.multilanguage.home_cd_notifications
 import com.tunc.wayfolk.multilanguage.home_cd_messages
+import com.tunc.wayfolk.multilanguage.home_cd_unread_messages
 import com.tunc.wayfolk.multilanguage.home_cd_like
 import com.tunc.wayfolk.multilanguage.home_cd_unlike
 import com.tunc.wayfolk.multilanguage.home_cd_comment
@@ -67,6 +68,7 @@ object WayFolkStrings {
         val yourStory = WayFolkStringResource(Strings.string.home_your_story)
         val notificationsDescription = WayFolkStringResource(Strings.string.home_cd_notifications)
         val messagesDescription = WayFolkStringResource(Strings.string.home_cd_messages)
+        val unreadMessagesDescription = WayFolkPluralResource(Strings.plurals.home_cd_unread_messages)
         val likeDescription = WayFolkStringResource(Strings.string.home_cd_like)
         val unlikeDescription = WayFolkStringResource(Strings.string.home_cd_unlike)
         val commentDescription = WayFolkStringResource(Strings.string.home_cd_comment)

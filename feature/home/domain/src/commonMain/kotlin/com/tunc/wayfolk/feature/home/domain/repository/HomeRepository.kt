@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
     fun getFeed(cursor: String?, pageSize: Int): Flow<RestResult<HomeFeed>>
+
+    fun getUnreadMessagesCount(): Flow<RestResult<Int>>
 }

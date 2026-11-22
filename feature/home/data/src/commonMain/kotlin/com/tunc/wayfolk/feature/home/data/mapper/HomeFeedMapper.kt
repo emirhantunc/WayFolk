@@ -4,6 +4,7 @@ import com.tunc.wayfolk.feature.home.data.model.HomeFeedResponse
 import com.tunc.wayfolk.feature.home.data.model.HomePostAuthorResponse
 import com.tunc.wayfolk.feature.home.data.model.HomePostResponse
 import com.tunc.wayfolk.feature.home.data.model.HomeStoryResponse
+import com.tunc.wayfolk.feature.home.data.model.UnreadMessagesCountResponse
 import com.tunc.wayfolk.feature.home.domain.model.HomeFeed
 import com.tunc.wayfolk.feature.home.domain.model.HomePost
 import com.tunc.wayfolk.feature.home.domain.model.HomePostAuthor
@@ -12,7 +13,6 @@ import com.tunc.wayfolk.feature.home.domain.model.HomeStory
 internal fun HomeFeedResponse.toDomain(): HomeFeed = HomeFeed(
     stories = stories.orEmpty().mapNotNull { it.toDomain() },
     posts = posts.orEmpty().mapNotNull { it.toDomain() },
-    hasUnreadMessages = hasUnreadMessages ?: false,
     nextCursor = nextCursor?.takeIf { it.isNotBlank() },
 )
 
@@ -56,3 +56,5 @@ private fun HomePostAuthorResponse.toDomain(): HomePostAuthor? {
         hasActiveStory = hasActiveStory ?: false,
     )
 }
+
+internal fun UnreadMessagesCountResponse.toDomain(): Int = (count ?: 0).coerceAtLeast(0)

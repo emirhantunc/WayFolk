@@ -1,6 +1,7 @@
 package com.tunc.wayfolk.feature.home.presentation.screen
 
 import androidx.lifecycle.viewModelScope
+import com.tunc.wayfolk.contract.network.RestResult
 import com.tunc.wayfolk.contract.network.ErrorType
 import com.tunc.wayfolk.contract.network.LoadingType
 import com.tunc.wayfolk.core.presentation.CoreViewModel
@@ -8,6 +9,7 @@ import com.tunc.wayfolk.core.presentation.pagination.PaginationBehaviour
 import com.tunc.wayfolk.core.presentation.pagination.PaginationBehaviourDelegate
 import com.tunc.wayfolk.feature.home.domain.model.HomeFeed
 import com.tunc.wayfolk.feature.home.domain.usecase.GetHomeFeedUseCase
+import com.tunc.wayfolk.feature.home.domain.usecase.GetUnreadMessagesCountUseCase
 import com.tunc.wayfolk.feature.home.presentation.mapper.HomeUiMapper
 import com.tunc.wayfolk.feature.home.presentation.model.HomePostUiModel
 import com.tunc.wayfolk.feature.home.presentation.model.StoryImageState
@@ -16,10 +18,13 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
 internal class HomeViewModel(
     private val getHomeFeedUseCase: GetHomeFeedUseCase,
+    private val getUnreadMessagesCountUseCase: GetUnreadMessagesCountUseCase,
     private val homeUiMapper: HomeUiMapper,
 ) : CoreViewModel(),
     PaginationBehaviour<String, HomeFeed> by PaginationBehaviourDelegate() {
@@ -45,6 +50,7 @@ internal class HomeViewModel(
             },
         )
         loadNextPage()
+        loadUnreadMessagesCount()
     }
 
     fun onAction(action: HomeScreenContract.Action) {
@@ -71,6 +77,22 @@ internal class HomeViewModel(
         }
     }
 
+    private fun loadUnreadMessagesCount() {
+        safeFlowApiCall(
+
+            loadingType = LoadingType.None,
+            errorType = ErrorType.None,
+        ) {
+            getUnreadMessagesCountUseCase()
+        }
+            .onEach { result ->
+                if (result is RestResult.Success) {
+                    _state.update { state -> state.copy(unreadMessagesCount = result.result) }
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
     private fun onFeedPageLoaded(feed: HomeFeed, isFirstPage: Boolean) {
         val newPosts = feed.posts.map(homeUiMapper::toUiModel)
         _state.update { state ->
@@ -78,12 +100,10 @@ internal class HomeViewModel(
                 state.copy(
                     stories = feed.stories.map(homeUiMapper::toUiModel).toImmutableList(),
                     posts = newPosts.distinctBy { post -> post.id }.toImmutableList(),
-                    hasUnreadMessages = feed.hasUnreadMessages,
                 )
             } else {
                 state.copy(
                     posts = (state.posts + newPosts).distinctBy { post -> post.id }.toImmutableList(),
-                    hasUnreadMessages = feed.hasUnreadMessages,
                 )
             }
         }
