@@ -7,7 +7,7 @@ import com.tunc.wayfolk.core.presentation.CoreViewModel
 import com.tunc.wayfolk.core.presentation.pagination.PaginationBehaviour
 import com.tunc.wayfolk.core.presentation.pagination.PaginationBehaviourDelegate
 import com.tunc.wayfolk.feature.home.domain.model.HomeFeed
-import com.tunc.wayfolk.feature.home.domain.repository.HomeRepository
+import com.tunc.wayfolk.feature.home.domain.usecase.GetHomeFeedUseCase
 import com.tunc.wayfolk.feature.home.presentation.mapper.HomeUiMapper
 import com.tunc.wayfolk.feature.home.presentation.model.HomePostUiModel
 import com.tunc.wayfolk.feature.home.presentation.model.StoryImageState
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 internal class HomeViewModel(
-    private val homeRepository: HomeRepository,
+    private val getHomeFeedUseCase: GetHomeFeedUseCase,
     private val homeUiMapper: HomeUiMapper,
 ) : CoreViewModel(),
     PaginationBehaviour<String, HomeFeed> by PaginationBehaviourDelegate() {
@@ -35,7 +35,7 @@ internal class HomeViewModel(
                     loadingType = if (isFirstPage) LoadingType.Content else LoadingType.None,
                     errorType = if (isFirstPage) ErrorType.Content else ErrorType.None,
                 ) {
-                    homeRepository.getFeed(cursor = cursor, pageSize = HomeConstants.Feed.PAGE_SIZE)
+                    getHomeFeedUseCase(cursor = cursor, pageSize = HomeConstants.Feed.PAGE_SIZE)
                 }
             },
             nextKey = HomeFeed::nextCursor,
