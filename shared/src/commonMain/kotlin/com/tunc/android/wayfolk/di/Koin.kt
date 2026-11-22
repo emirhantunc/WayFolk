@@ -5,6 +5,10 @@ import com.tunc.wayfolk.core.presentation.di.corePresentationModule
 import com.tunc.wayfolk.feature.di.baseFeatureModules
 import com.tunc.wayfolk.core.network.di.networkModule
 import com.tunc.wayfolk.feature.home.di.homeModule
+import com.tunc.wayfolk.feature.map.di.mapModule
+import com.tunc.wayfolk.feature.rooms.di.roomsModule
+import com.tunc.wayfolk.feature.search.di.searchModule
+import com.tunc.wayfolk.feature.profile.di.profileModule
 import com.tunc.wayfolk.multilanguage.di.multiLanguageModule
 import com.tunc.wayfolk.splash.presentation.di.splashPresentationModule
 import org.koin.core.context.startKoin
@@ -20,6 +24,10 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             baseFeatureModules,
             networkModule,
             homeModule,
+            mapModule,
+            roomsModule,
+            searchModule,
+            profileModule,
             navigationModule,
             appModule,
             splashPresentationModule

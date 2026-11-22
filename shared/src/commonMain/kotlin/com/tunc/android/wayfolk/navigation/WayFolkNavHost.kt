@@ -1,8 +1,10 @@
 package com.tunc.android.wayfolk.navigation
 
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
@@ -15,6 +17,7 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.navigationevent.NavigationEventInfo
 import androidx.navigationevent.compose.NavigationBackHandler
 import androidx.navigationevent.compose.rememberNavigationEventState
+import com.tunc.wayfolk.core.presentation.appDimensionProvider
 import com.tunc.wayfolk.multilanguage.language.AppLanguage
 import com.tunc.wayfolk.multilanguage.language.LanguageManager
 import com.tunc.wayfolk.multilanguage.language.LocalAppLanguage
@@ -29,9 +32,11 @@ import kotlin.collections.distinct
 @Composable
 fun WayFolkNavHost(
     topLevelBackStack: TopLevelBackStack,
+    bottomBar: @Composable () -> Unit,
     languageManager: LanguageManager = koinInject(),
 ) {
     val koin = getKoin()
+    val dimensionProvider = appDimensionProvider
     val language by languageManager.language.collectAsStateWithLifecycle()
     val providers = remember { koin.getAll<NavEntryProvider>().distinct() }
 
@@ -51,19 +56,25 @@ fun WayFolkNavHost(
         onBackCompleted = { topLevelBackStack.onSystemBack() }
     )
 
-    val entryDecorators = listOf(
-        rememberSaveableStateHolderNavEntryDecorator<NavKey>(),
-        rememberViewModelStoreNavEntryDecorator<NavKey>()
-    )
+    val saveableStateDecorator = rememberSaveableStateHolderNavEntryDecorator<NavKey>()
+    val viewModelStoreDecorator = rememberViewModelStoreNavEntryDecorator<NavKey>()
+    val entryDecorators = remember(saveableStateDecorator, viewModelStoreDecorator) {
+        listOf(saveableStateDecorator, viewModelStoreDecorator)
+    }
 
     SharedTransitionLayout {
         WayFolkLocalizationProvider(language = language) {
-            NavDisplay(
-                backStack = topLevelBackStack.backStack,
-                onBack = { topLevelBackStack.onSystemBack() },
-                entryDecorators = entryDecorators,
-                entryProvider = entryProvider
-            )
+            Scaffold(bottomBar = bottomBar) { innerPaddings ->
+                LaunchedEffect(innerPaddings) {
+                    dimensionProvider.updateInnerPaddings(innerPaddings)
+                }
+                NavDisplay(
+                    backStack = topLevelBackStack.backStack,
+                    onBack = { topLevelBackStack.onSystemBack() },
+                    entryDecorators = entryDecorators,
+                    entryProvider = entryProvider
+                )
+            }
         }
     }
 }

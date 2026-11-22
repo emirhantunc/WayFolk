@@ -57,8 +57,7 @@ import com.tunc.wayfolk.designsystemkit.theme.AppThemeProvider
 import com.tunc.wayfolk.designsystemkit.theme.color.WayFolkColor
 import com.tunc.wayfolk.designsystemkit.theme.typography.AppTypographyTokens
 import com.tunc.wayfolk.feature.navigation.appBottomNavigationStateManager
-import com.tunc.wayfolk.multilanguage.Strings
-import com.tunc.wayfolk.multilanguage.common_no_internet
+import com.tunc.wayfolk.multilanguage.language.WayFolkStrings
 import com.tunc.wayfolk.uicomponent.loading.AppScreenLoading
 import com.tunc.wayfolk.uicomponent.loading.AppScreenSkeleton
 import kotlinx.coroutines.delay
@@ -277,7 +276,7 @@ private fun NoInternetConnectionBar(visible: Boolean, modifier: Modifier = Modif
         exit = slideOutVertically { it } + fadeOut(),
     ) {
         WayFolkText(
-            text = Strings.string.common_no_internet,
+            text = WayFolkStrings.Common.noInternet,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.Black)

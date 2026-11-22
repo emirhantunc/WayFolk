@@ -5,23 +5,21 @@ import com.tunc.wayfolk.feature.home.presentation.util.HomeConstants.AutomationT
 import com.tunc.wayfolk.navigation.model.BottomNavigationItem
 import com.tunc.wayfolk.navigation.model.router.ComposeTabScreenRouter
 import com.tunc.wayfolk.resources.Res
-import com.tunc.wayfolk.multilanguage.Strings
-import com.tunc.wayfolk.multilanguage.home_tab_title
-import com.tunc.wayfolk.resources.ic_home_filled
-import com.tunc.wayfolk.resources.ic_home_outlined
+import com.tunc.wayfolk.multilanguage.language.WayFolkStringResource
+import com.tunc.wayfolk.multilanguage.language.WayFolkStrings
+import com.tunc.wayfolk.resources.ic_feed
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.StringResource
 
 internal class HomeNavigationItem : BottomNavigationItem {
 
-    override val title: StringResource
-        get() = Strings.string.home_tab_title
+    override val title: WayFolkStringResource
+        get() = WayFolkStrings.Home.tabTitle
 
     override val icon: DrawableResource
-        get() = Res.drawable.ic_home_filled
+        get() = Res.drawable.ic_feed
 
     override val unSelectedIcon: DrawableResource
-        get() = Res.drawable.ic_home_outlined
+        get() = Res.drawable.ic_feed
 
     override val router: ComposeTabScreenRouter
         get() = HomeRouter.Home

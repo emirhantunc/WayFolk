@@ -1,12 +1,12 @@
 package com.tunc.wayfolk.navigation.model
 
+import com.tunc.wayfolk.multilanguage.language.WayFolkStringResource
 import com.tunc.wayfolk.navigation.model.router.ComposeTabScreenRouter
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.StringResource
 
 @Suppress("ComplexInterface")
 interface BottomNavigationItem {
-    val title: StringResource
+    val title: WayFolkStringResource
     val router: ComposeTabScreenRouter
     val order: Int
     val badgeKey: String

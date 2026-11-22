@@ -14,7 +14,14 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.designsystemkit)
             implementation(projects.core.extension)
-            implementation(libs.coil.compose)
+            api(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
+        }
+        androidMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }

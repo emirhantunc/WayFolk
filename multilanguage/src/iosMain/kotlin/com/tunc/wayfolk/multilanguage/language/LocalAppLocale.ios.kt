@@ -13,16 +13,23 @@ actual object LocalAppLocale {
     private val systemLocale = NSLocale.preferredLanguages.first() as String
     private val locale = staticCompositionLocalOf { systemLocale }
 
+    private var hasApplied = false
+    private var appliedValue: String? = null
+
     actual val current: String
         @Composable get() = locale.current
 
     @Composable
     actual infix fun provides(value: String?): ProvidedValue<*> {
-        val defaults = NSUserDefaults.standardUserDefaults
-        if (value == null) {
-            defaults.removeObjectForKey(APPLE_LANGUAGES_KEY)
-        } else {
-            defaults.setObject(listOf(value), APPLE_LANGUAGES_KEY)
+        if (!hasApplied || appliedValue != value) {
+            val defaults = NSUserDefaults.standardUserDefaults
+            if (value == null) {
+                defaults.removeObjectForKey(APPLE_LANGUAGES_KEY)
+            } else {
+                defaults.setObject(listOf(value), APPLE_LANGUAGES_KEY)
+            }
+            hasApplied = true
+            appliedValue = value
         }
         return locale provides (value ?: systemLocale)
     }

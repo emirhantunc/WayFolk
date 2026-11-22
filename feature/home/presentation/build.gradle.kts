@@ -18,6 +18,14 @@ kotlin {
             implementation(projects.uicomponent)
             implementation(projects.designsystemkit)
             implementation(projects.multilanguage)
+            implementation(projects.logger)
+            implementation(libs.kotlinx.collections.immutable)
+        }
+        getByName("androidDeviceTest").dependencies {
+            implementation(libs.androidx.compose.uiTestJunit4)
+            implementation(libs.androidx.compose.uiTestManifest)
+            implementation(libs.coil.test)
+            implementation(libs.coil.compose)
         }
     }
 }

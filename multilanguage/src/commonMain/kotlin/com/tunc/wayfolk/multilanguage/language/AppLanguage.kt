@@ -1,19 +1,13 @@
 package com.tunc.wayfolk.multilanguage.language
 
-import com.tunc.wayfolk.multilanguage.Strings
-import com.tunc.wayfolk.multilanguage.language_english
-import com.tunc.wayfolk.multilanguage.language_system
-import com.tunc.wayfolk.multilanguage.language_turkish
-import org.jetbrains.compose.resources.StringResource
-
-enum class AppLanguage(val tag: String?, val displayName: StringResource) {
-    SYSTEM(tag = null, displayName = Strings.string.language_system),
-    ENGLISH(tag = "en", displayName = Strings.string.language_english),
-    TURKISH(tag = "tr", displayName = Strings.string.language_turkish);
+enum class AppLanguage(val tag: String?, val displayName: WayFolkStringResource) {
+    SYSTEM(tag = null, displayName = WayFolkStrings.Language.system),
+    ENGLISH(tag = "en", displayName = WayFolkStrings.Language.english),
+    TURKISH(tag = "tr", displayName = WayFolkStrings.Language.turkish);
 
     companion object {
         fun fromTag(tag: String?): AppLanguage = entries.firstOrNull { it.tag == tag } ?: SYSTEM
-        fun fromDisplayName(displayName: StringResource): AppLanguage =
+        fun fromDisplayName(displayName: WayFolkStringResource): AppLanguage =
             entries.firstOrNull { it.displayName == displayName } ?: SYSTEM
     }
 }

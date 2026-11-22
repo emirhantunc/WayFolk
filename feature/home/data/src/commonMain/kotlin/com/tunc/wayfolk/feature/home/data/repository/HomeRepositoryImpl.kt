@@ -13,6 +13,6 @@ internal class HomeRepositoryImpl(
     private val apiHandler: ApiHandler,
 ) : HomeRepository {
 
-    override fun getFeed(): Flow<RestResult<HomeFeed>> =
-        apiHandler.safeApiCall { homeApi.getFeed().toDomain() }
+    override fun getFeed(cursor: String?, pageSize: Int): Flow<RestResult<HomeFeed>> =
+        apiHandler.safeApiCall { homeApi.getFeed(cursor = cursor, pageSize = pageSize).toDomain() }
 }
